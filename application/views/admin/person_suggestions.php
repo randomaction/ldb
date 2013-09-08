@@ -1,8 +1,8 @@
 <?php
 $this->load->helper('form');
-echo form_open('admin/add_existing_persons');
-echo form_hidden('group_id', $group_data->group_id);
-?>
+echo form_open('admin/add_existing_persons');?>
+<div>
+<?echo form_hidden('group_id', $group_data->group_id); ?>
 <h3>Добавить людей из этого выпуска</h3>
 <p>
 <?php foreach($suggestions as $person): ?>
@@ -14,4 +14,5 @@ echo form_hidden('group_id', $group_data->group_id);
 <p>
 <?php echo form_submit('submit', 'Добавить');?>
 </p>
+</div>
 <?php echo form_close();?>
