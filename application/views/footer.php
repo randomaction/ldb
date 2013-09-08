@@ -1,4 +1,4 @@
 <?php $this->load->helper('url');
-echo anchor('lager', 'На главную'); ?>
+if (!isset($link) || $link != false) echo anchor('lager', 'На главную'); ?>
 </body>
 </html>

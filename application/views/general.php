@@ -4,5 +4,3 @@
 <li><?php $y = $year->year; echo anchor("lager/year/$y", $y); ?></li>
 <?php endforeach;?>
 </ul>
-</body>
-</html>
