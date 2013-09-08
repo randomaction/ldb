@@ -12,7 +12,7 @@ class Lager extends CI_Controller {
 
     public function year($year='???') {
         $data['year'] = $year;
-        $data['persons'] = $this->Lagermodel->get_year($year);
+        $data['groups'] = $this->Lagermodel->get_year($year);
 
         $this->load->view('year', $data);
     }

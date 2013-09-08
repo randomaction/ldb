@@ -7,12 +7,20 @@ class Lagermodel extends CI_Model {
     }
 
     function get_year($year) {
-        $this->db->select('persons.name')->from('persons')->
-            join('attendances', 'persons.person_id = attendances.person_id')->
-            join('groups', 'attendances.group_id = groups.group_id')->
-            where('groups.year', $year);
-        $query = $this->db->get();
-        return $query->result();
+        $result = array();
+        $this->db->from('groups')->where('year', $year);
+        $group_query = $this->db->get();
+
+        foreach ($group_query->result() as $row) {
+            $this->db->select('persons.name')->from('persons')->
+                join('attendances', 'persons.person_id = attendances.person_id')->
+                where('attendances.group_id', $row->group_id);
+            $person_query = $this->db->get();
+            $result[$row->name] = $person_query->result();
+        }
+
+        ksort($result, SORT_NATURAL);
+        return $result;
     }
 }
 ?>
