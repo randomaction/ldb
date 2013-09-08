@@ -1,4 +1,4 @@
-create table ldb_persons (person_id integer not null auto_increment unique, name varchar(100) not null character set utf8;
+create table ldb_persons (person_id integer not null auto_increment unique, name varchar(100) not null character set utf8, graduation varchar(20) character set utf8);
 create table ldb_groups (group_id integer not null auto_increment unique, year varchar(20) character set utf8 not null, name varchar(100) character set utf8 not null);
 create table ldb_attendances (person_id integer, group_id integer, index person_ind (person_id), index group_ind (group_id), foreign key (person_id) references ldb_persons(person_id), foreign key (group_id) references ldb_groups(group_id));
 
