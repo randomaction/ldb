@@ -8,7 +8,7 @@
 <body>
 <ul>
 <?php foreach ($persons as $person):?>
-<li><?php echo $person?></li>
+<li><?php echo $person->name; ?></li>
 <?php endforeach;?>
 </ul>
 </body>
