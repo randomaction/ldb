@@ -9,4 +9,4 @@ echo form_open('admin/add_group');
 <?php echo form_input(array('name' => 'name', 'size' => 10));?>
 <?php echo form_submit('submit', 'Добавить');?>
 </p>
-<?php form_close();?>
+<?php echo form_close();?>

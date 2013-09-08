@@ -11,4 +11,4 @@ echo form_hidden('group_id', $group_data->group_id);
 <p>
 <?php echo form_submit('submit', 'Добавить');?>
 </p>
-<?php form_close();?>
+<?php echo form_close();?>
