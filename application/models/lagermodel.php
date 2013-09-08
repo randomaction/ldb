@@ -12,6 +12,7 @@ class Lagermodel extends CI_Model {
     }
 
     function get_year($year) {
+        $result = array();
         $this->db->from('groups')->where('year', $year);
         $group_query = $this->db->get();
 
@@ -29,7 +30,10 @@ class Lagermodel extends CI_Model {
 
     function get_person_name($id) {
         $this->db->from('persons')->where('person_id', $id);
-        return $this->db->get()->row()->name;
+        $query = $this->db->get();
+        if ($query->num_rows == 0)
+            return '';
+        return $query->row()->name;
     }
 
     static function cmp_by_name($a, $b) {
