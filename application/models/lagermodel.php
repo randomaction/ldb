@@ -6,8 +6,13 @@ class Lagermodel extends CI_Model {
         $this->load->database();
     }
 
+    function get_years() {
+        $this->db->distinct()->select('year')->from('groups');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     function get_year($year) {
-        $result = array();
         $this->db->from('groups')->where('year', $year);
         $group_query = $this->db->get();
 

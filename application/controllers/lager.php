@@ -7,13 +7,13 @@ class Lager extends CI_Controller {
     }
 
     public function index() {
-        $this->year('2013');
+        $data['years'] = $this->Lagermodel->get_years();
+        $this->load->view('general', $data);
     }
 
     public function year($year='???') {
         $data['year'] = $year;
         $data['groups'] = $this->Lagermodel->get_year($year);
-
         $this->load->view('year', $data);
     }
 }
