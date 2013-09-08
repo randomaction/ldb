@@ -80,7 +80,9 @@ class Lagermodel extends CI_Model {
         foreach ($this->db->get()->result() as $row) {
             array_push($already_in, $row->person_id);
         }
-        $this->db->from('persons')->where('graduation', $grad)->where_not_in('person_id', $already_in);
+        $this->db->from('persons')->where('graduation', $grad);
+        if (count($already_in) > 0)
+            $this->db->where_not_in('person_id', $already_in);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
         return $result;
