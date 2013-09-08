@@ -3,7 +3,7 @@ $this->load->helper('form');
 echo form_open('admin/add_persons');
 echo form_hidden('group_id', $group_data->group_id);
 ?>
-<h3>Добавить людей в этот отряд</h3>
+<h3>Добавить людей, отсутствующих в базе</h3>
 <p>Один человек на строчку. Фамилия-пробел-имя.</p>
 <p>
 <?php echo form_textarea(array('name' => 'persons', 'rows' => 30, 'cols' => 60));?>
