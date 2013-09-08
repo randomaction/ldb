@@ -1,11 +1,3 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>
-<?php echo $year;?> год
-</title>
-</head>
-<body>
 <?php $this->load->helper('url');?>
 <?php foreach ($groups as $group => $persons):?>
 <h2><?php echo $group; ?></h2>
@@ -15,5 +7,3 @@
 <?php endforeach;?>
 </ul>
 <?php endforeach;?>
-</body>
-</html>
