@@ -19,12 +19,19 @@ class Admin extends CI_Controller {
         $this->index();
     }
 
-    function year($year='???') {
-        $data['year'] = $year;
-        $data['groups'] = $this->Lagermodel->get_year($year);
+    function group($id='???') {
+        $data['group_data'] = $this->Lagermodel->get_group_data($id);
+        $data['persons'] = $this->Lagermodel->get_group_persons($id);
         $this->load->view('header');
-        $this->load->view('year', $data);
-        $this->load->view('footer');
+        $this->load->view('admin/group', $data);
+        $this->load->view('admin/add_persons', $data);
+        $this->load->view('admin/footer');
+    }
+
+    function add_persons() {
+        $id = $this->input->post('group_id');
+        $this->Lagermodel->add_persons($id, $this->input->post('persons'));
+        $this->group($id);
     }
 
     function person($id='???') {

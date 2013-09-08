@@ -17,14 +17,24 @@ class Lagermodel extends CI_Model {
         $group_query = $this->db->get();
 
         foreach ($group_query->result() as $row) {
-            $this->db->select('persons.*')->from('persons')->
-                join('attendances', 'persons.person_id = attendances.person_id')->
-                where('attendances.group_id', $row->group_id);
-            $person_query = $this->db->get();
-            $result[$row->name] = $person_query->result();
+            $result[$row->name] = $this->get_group_persons($row->group_id);
         }
 
         ksort($result, SORT_NATURAL);
+        return $result;
+    }
+
+    function get_group_data($id) {
+        $this->db->from('groups')->where('group_id', $id);
+        return $this->db->get()->row();
+    }
+
+    function get_group_persons($id) {
+        $this->db->select('persons.*')->from('persons')->
+            join('attendances', 'persons.person_id = attendances.person_id')->
+            where('attendances.group_id', $id);
+        $result = $this->db->get()->result();
+        usort($result, array('Lagermodel', 'cmp_by_name'));
         return $result;
     }
 
@@ -65,6 +75,15 @@ class Lagermodel extends CI_Model {
 
     function add_group($year, $name) {
         $this->db->insert('groups', array('year' => $year, 'name' => $name));
+    }
+
+    function add_persons($id, $persons) {
+        foreach(explode("\n", $persons) as $name) {
+            if (strlen(trim($name)) == 0)
+                continue;
+            $this->db->insert('persons', array('name' => $name));
+            $this->db->insert('attendances', array('person_id' => $this->db->insert_id(), 'group_id' => $id));
+        }
     }
 }
 ?>
