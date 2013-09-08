@@ -69,7 +69,7 @@ class Lagermodel extends CI_Model {
             join('attendances', 'groups.group_id = attendances.group_id')->
             where('attendances.person_id', $id);
         $result = $this->db->get()->result();
-        usort($result, array('Lagermodel', 'cmp_by_name'));
+        usort($result, array('Lagermodel', 'cmp_groups'));
         return $result;
     }
 
