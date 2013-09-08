@@ -28,6 +28,20 @@ class Lagermodel extends CI_Model {
         return $result;
     }
 
+    static function cmp_groups($a, $b) {
+        $names = strnatcmp($a->year, $b->year);
+        if ($names != 0)
+            return $names;
+        return strnatcmp($a->name, $b->name);
+    }
+
+    function get_groups() {
+        $this->db->from('groups');
+        $result = $this->db->get()->result();
+        usort($result, array('Lagermodel', 'cmp_groups'));
+        return $result;
+    }
+
     function get_person_name($id) {
         $this->db->from('persons')->where('person_id', $id);
         $query = $this->db->get();
@@ -45,8 +59,12 @@ class Lagermodel extends CI_Model {
             join('attendances', 'groups.group_id = attendances.group_id')->
             where('attendances.person_id', $id);
         $result = $this->db->get()->result();
-        usort($result, array("Lagermodel", "cmp_by_name"));
+        usort($result, array('Lagermodel', 'cmp_by_name'));
         return $result;
+    }
+
+    function add_group($year, $name) {
+        $this->db->insert('groups', array('year' => $year, 'name' => $name));
     }
 }
 ?>
