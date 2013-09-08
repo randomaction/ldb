@@ -73,14 +73,19 @@ class Lagermodel extends CI_Model {
         return $result;
     }
 
-    function get_person_suggestions($id) {
-        $grad = $this->get_group_default_graduation($id);
+    function get_ids_not_in_group($id) {
         $this->db->from('attendances')->where('group_id', $id);
         $already_in = array();
         foreach ($this->db->get()->result() as $row) {
             array_push($already_in, $row->person_id);
         }
-        $this->db->from('persons')->where('graduation', $grad);
+        return $already_in;
+    }
+
+    function get_person_suggestions($id, $operator) {
+        $grad = $this->get_group_default_graduation($id);
+        $already_in = $this->get_ids_not_in_group($id);
+        $this->db->from('persons')->where('graduation '.$operator, $grad);
         if (count($already_in) > 0)
             $this->db->where_not_in('person_id', $already_in);
         $result = $this->db->get()->result();
@@ -104,11 +109,16 @@ class Lagermodel extends CI_Model {
 
     function add_existing_persons($id, $data) {
         foreach($data as $key => $value) {
-            if (strcmp(substr($key, 0, 2), 'id') != 0 || strcmp($value, 'add') != 0)
-                continue;
-            $person_id = substr($key, 2);
-            $this->db->insert('attendances', array('person_id' => $person_id, 'group_id' => $id));
+            if (strcmp($value, 'add') == 0)
+                $this->add_person($id, $key);
         }
+    }
+
+    function add_person($group_id, $id_string) {
+        if (strcmp(substr($id_string, 0, 2), 'id') != 0)
+            return;
+        $person_id = substr($id_string, 2);
+        $this->db->insert('attendances', array('person_id' => $person_id, 'group_id' => $group_id));
     }
 
     function get_group_default_graduation($id) {

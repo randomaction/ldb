@@ -22,10 +22,12 @@ class Admin extends CI_Controller {
     function group($id='???') {
         $data['group_data'] = $this->Lagermodel->get_group_data($id);
         $data['persons'] = $this->Lagermodel->get_group_persons($id);
-        $data['suggestions'] = $this->Lagermodel->get_person_suggestions($id);
+        $data['suggestions'] = $this->Lagermodel->get_person_suggestions($id, '=');
+        $data['others'] = $this->Lagermodel->get_person_suggestions($id, '<>');
         $this->load->view('header');
         $this->load->view('admin/group', $data);
         $this->load->view('admin/person_suggestions', $data);
+        $this->load->view('admin/other_persons', $data);
         $this->load->view('admin/add_persons', $data);
         $this->load->view('admin/footer');
     }
@@ -39,6 +41,12 @@ class Admin extends CI_Controller {
     function add_existing_persons() {
         $id = $this->input->post('group_id');
         $this->Lagermodel->add_existing_persons($id, $this->input->post());
+        $this->group($id);
+    }
+
+    function add_other_person() {
+        $id = $this->input->post('group_id');
+        $this->Lagermodel->add_person($id, $this->input->post('other'));
         $this->group($id);
     }
 
