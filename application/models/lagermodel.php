@@ -141,6 +141,12 @@ class Lagermodel extends CI_Model {
         $this->clean_persons();
     }
 
+    function remove_group($id) {
+        $this->db->from('attendances')->where('group_id', $id)->delete();
+        $this->db->from('groups')->where('group_id', $id)->delete();
+        $this->clean_persons();
+    }
+
     function get_group_default_graduation($id) {
         $group_data = $this->get_group_data($id);
         return $this->get_default_graduation($group_data->year, $group_data->name);

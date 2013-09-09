@@ -56,6 +56,18 @@ class Admin extends CI_Controller {
         redirect('admin/group/'.$group_id);
     }
 
+    function remove_group_confirm($id='???') {
+        $data['group_data'] = $this->Lagermodel->get_group_data($id);
+        $this->load->view('header');
+        $this->load->view('admin/remove_group_confirm', $data);
+        $this->load->view('footer', array('admin' => true));
+    }
+
+    function remove_group() {
+        $this->Lagermodel->remove_group($this->input->post('id'));
+        redirect('admin');
+    }
+
     function person($id='???') {
         $data['name'] = $this->Lagermodel->get_person_name($id);
         $data['groups'] = $this->Lagermodel->get_person_groups($id);
