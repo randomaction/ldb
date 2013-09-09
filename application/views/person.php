@@ -1,5 +1,5 @@
 <h2>
-<?php echo $name; ?>
+<?php if ($person_data != null) echo $person_data->name; ?>
 </h2>
 <ul>
 <?php $this->load->helper('url');?>

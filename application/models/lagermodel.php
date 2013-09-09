@@ -52,12 +52,12 @@ class Lagermodel extends CI_Model {
         return $result;
     }
 
-    function get_person_name($id) {
+    function get_person_data($id) {
         $this->db->from('persons')->where('person_id', $id);
         $query = $this->db->get();
         if ($query->num_rows == 0)
-            return '';
-        return $query->row()->name;
+            return null;
+        return $query->row();
     }
 
     static function cmp_by_name($a, $b) {
@@ -145,6 +145,11 @@ class Lagermodel extends CI_Model {
         $this->db->from('attendances')->where('group_id', $id)->delete();
         $this->db->from('groups')->where('group_id', $id)->delete();
         $this->clean_persons();
+    }
+
+    function update_person($id, $name, $graduation) {
+        $this->db->where('person_id', $id)->
+            update('persons', array('name' => $name, 'graduation' => $graduation));
     }
 
     function get_group_default_graduation($id) {

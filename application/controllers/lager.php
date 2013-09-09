@@ -22,7 +22,7 @@ class Lager extends CI_Controller {
     }
 
     function person($id='???') {
-        $data['name'] = $this->Lagermodel->get_person_name($id);
+        $data['person_data'] = $this->Lagermodel->get_person_data($id);
         $data['groups'] = $this->Lagermodel->get_person_groups($id);
         $this->load->view('header');
         $this->load->view('person', $data);

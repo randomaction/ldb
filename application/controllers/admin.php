@@ -68,12 +68,18 @@ class Admin extends CI_Controller {
         redirect('admin');
     }
 
-    function person($id='???') {
-        $data['name'] = $this->Lagermodel->get_person_name($id);
-        $data['groups'] = $this->Lagermodel->get_person_groups($id);
+    function person($id='???', $group_id='???') {
+        $data['person_data'] = $this->Lagermodel->get_person_data($id);
+        $data['group_id'] = $group_id;
         $this->load->view('header');
-        $this->load->view('person', $data);
-        $this->load->view('footer');
+        $this->load->view('admin/person', $data);
+        $this->load->view('footer', array('admin' => true));
+    }
+
+    function update_person() {
+        $this->Lagermodel->update_person($this->input->post('id'),
+            $this->input->post('name'), $this->input->post('graduation'));
+        redirect('admin/group/'.$this->input->post('group_id'));
     }
 }
 ?>
