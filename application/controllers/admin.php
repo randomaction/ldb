@@ -4,6 +4,7 @@ class Admin extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('Lagermodel');
+        $this->load->helper('url');
     }
 
     function index() {
@@ -16,7 +17,7 @@ class Admin extends CI_Controller {
 
     function add_group() {
         $this->Lagermodel->add_group($this->input->post('year'), $this->input->post('name'));
-        $this->index();
+        redirect('admin');
     }
 
     function group($id='???') {
@@ -35,19 +36,19 @@ class Admin extends CI_Controller {
     function add_persons() {
         $id = $this->input->post('group_id');
         $this->Lagermodel->add_persons($id, $this->input->post('persons'));
-        $this->group($id);
+        redirect('admin/group/'.$id);
     }
 
     function add_existing_persons() {
         $id = $this->input->post('group_id');
         $this->Lagermodel->add_existing_persons($id, $this->input->post());
-        $this->group($id);
+        redirect('admin/group/'.$id);
     }
 
     function add_other_person() {
         $id = $this->input->post('group_id');
         $this->Lagermodel->add_person($id, $this->input->post('other'));
-        $this->group($id);
+        redirect('admin/group/'.$id);
     }
 
     function person($id='???') {
