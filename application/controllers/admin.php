@@ -11,7 +11,7 @@ class Admin extends CI_Controller {
         $this->load->view('header');
         $this->load->view('admin/groups', $data);
         $this->load->view('admin/add_group');
-        $this->load->view('admin/footer', array('link' => false));
+        $this->load->view('footer');
     }
 
     function add_group() {
@@ -29,7 +29,7 @@ class Admin extends CI_Controller {
         $this->load->view('admin/person_suggestions', $data);
         $this->load->view('admin/other_persons', $data);
         $this->load->view('admin/add_persons', $data);
-        $this->load->view('admin/footer');
+        $this->load->view('footer', array('admin' => true));
     }
 
     function add_persons() {

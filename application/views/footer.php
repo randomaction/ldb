@@ -1,6 +1,10 @@
 <?php $this->load->helper('url'); ?>
-<div>
-<?php if (!isset($link) || $link != false) echo anchor('lager', 'На главную'); ?>
-</div>
+<p>
+<?php if (isset($admin) && $admin == true): ?>
+<?php echo anchor('admin', 'Администрирование'); ?>
+<br/>
+<?php endif; ?>
+<?php echo anchor('lager', 'На главную'); ?>
+</p>
 </body>
 </html>
