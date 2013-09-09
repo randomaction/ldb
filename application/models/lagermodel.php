@@ -121,6 +121,26 @@ class Lagermodel extends CI_Model {
         $this->db->insert('attendances', array('person_id' => $person_id, 'group_id' => $group_id));
     }
 
+    function clean_persons() {
+        $this->db->select('persons.*')->from('persons')->
+            join('attendances', 'persons.person_id = attendances.person_id', 'left')->
+            where('attendances.group_id', null);
+        $to_delete = array();
+        foreach ($this->db->get()->result() as $row) {
+           array_push($to_delete, $row->person_id);
+        }
+        if (count($to_delete) == 0) {
+            return;
+        }
+        $this->db->from('persons')->where_in('person_id', $to_delete)->delete();
+    }
+
+    function remove_attendance($group_id, $person_id) {
+        $this->db->from('attendances')->
+            where(array('group_id' => $group_id, 'person_id' => $person_id))->delete();
+        $this->clean_persons();
+    }
+
     function get_group_default_graduation($id) {
         $group_data = $this->get_group_data($id);
         return $this->get_default_graduation($group_data->year, $group_data->name);

@@ -51,6 +51,11 @@ class Admin extends CI_Controller {
         redirect('admin/group/'.$id);
     }
 
+    function remove($group_id='???', $person_id='???') {
+        $this->Lagermodel->remove_attendance($group_id, $person_id);
+        redirect('admin/group/'.$group_id);
+    }
+
     function person($id='???') {
         $data['name'] = $this->Lagermodel->get_person_name($id);
         $data['groups'] = $this->Lagermodel->get_person_groups($id);
