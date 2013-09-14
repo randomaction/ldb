@@ -1,7 +1,7 @@
 <?php $this->load->helper('url');?>
 <?php $this->load->helper('form');?>
 <h2><?php echo $group_data->year.', '.$group_data->name; ?></h2>
-<ul>
+<ol>
 <?php foreach ($persons as $person):?>
 <li>
 <?php echo anchor('admin/remove/'.$group_data->group_id.'/'.$person->person_id, '[x]'); ?>
@@ -22,4 +22,4 @@ echo form_close();?>
 </li></ul>
 </li>
 <?php endforeach;?>
-</ul>
+</ol>
