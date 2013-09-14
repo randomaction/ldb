@@ -25,6 +25,7 @@ class Lager extends CI_Controller {
     function group($id='???') {
         $data['group'] = $this->Lagermodel->get_group_data($id);
         $data['persons'] = $this->Lagermodel->get_group_persons($id);
+        $data['images'] = $this->Lagermodel->get_group_photos($id, 'image_small', true);
         $this->load->view('header');
         $this->load->view('group', $data);
         $this->load->view('footer');
@@ -34,6 +35,7 @@ class Lager extends CI_Controller {
         $data['person_data'] = $this->Lagermodel->get_person_data($id);
         $data['current_group'] = $this->Lagermodel->get_group_data($group_id);
         $data['groups'] = $this->Lagermodel->get_person_groups($id);
+        $data['image'] = $this->Lagermodel->get_photo($id, $group_id);
         $this->load->view('header');
         $this->load->view('person', $data);
         $this->load->view('footer');

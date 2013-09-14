@@ -8,7 +8,7 @@ text-align: center;
 }
 
 .p1 {
-margin-top: 1em;
+margin: 0.5em 0.2em;
 text-align: center;
 display: inline-block;
 }
@@ -19,4 +19,5 @@ display: inline-block;
 .p {
 text-align: center;
 float: right;
+margin-right: 1em;
 }

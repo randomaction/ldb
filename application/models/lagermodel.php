@@ -4,6 +4,7 @@ class Lagermodel extends CI_Model {
     function __construct()    {
         parent::__construct();
         $this->load->database();
+        $this->load->helper('url');
     }
 
     function get_years() {
@@ -36,6 +37,27 @@ class Lagermodel extends CI_Model {
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
         return $result;
+    }
+
+    function get_group_photos($id, $column, $replace) {
+        $this->db->from('attendances')->where('group_id', $id);
+        $images = array();
+        foreach ($this->db->get()->result_array() as $row) {
+            $images[$row['person_id']] = $row[$column];
+            if ($replace && ($row[$column] == null || strcmp($row[$column], '') == 0)) {
+                $images[$row['person_id']] = base_url('media/son_of_an_atom.jpg');
+            }
+        }
+        return $images;
+    }
+
+    function get_photo($person_id, $group_id) {
+        $this->db->from('attendances')->where(array('person_id' => $person_id, 'group_id' => $group_id));
+        $url = $this->db->get()->row()->image;
+        if ($url == null || strcmp($url, '') == 0) {
+            $url = base_url('media/son_of_an_atom.jpg');
+        }
+        return $url;
     }
 
     static function cmp_groups($a, $b) {
@@ -162,6 +184,11 @@ class Lagermodel extends CI_Model {
 
     function get_default_graduation($year, $name) {
         return $year + 12 - (int)$name;
+    }
+
+    function update_photos($person_id, $group_id, $image, $image_small) {
+        $this->db->where(array('person_id' => $person_id, 'group_id' => $group_id))->
+            update('attendances', array('image' => $image, 'image_small' => $image_small));
     }
 }
 ?>

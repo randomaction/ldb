@@ -23,6 +23,8 @@ class Admin extends CI_Controller {
     function group($id='???') {
         $data['group_data'] = $this->Lagermodel->get_group_data($id);
         $data['persons'] = $this->Lagermodel->get_group_persons($id);
+        $data['images'] = $this->Lagermodel->get_group_photos($id, 'image', false);
+        $data['images_small'] = $this->Lagermodel->get_group_photos($id, 'image_small', false);
         $data['suggestions'] = $this->Lagermodel->get_person_suggestions($id, '=');
         $data['others'] = $this->Lagermodel->get_person_suggestions($id, '<>');
         $this->load->view('header');
@@ -79,6 +81,13 @@ class Admin extends CI_Controller {
     function update_person() {
         $this->Lagermodel->update_person($this->input->post('id'),
             $this->input->post('name'), $this->input->post('graduation'));
+        redirect('admin/group/'.$this->input->post('group_id'));
+    }
+
+    function update_photos() {
+        $this->Lagermodel->update_photos($this->input->post('person_id'),
+            $this->input->post('group_id'), $this->input->post('image'),
+            $this->input->post('image_small'));
         redirect('admin/group/'.$this->input->post('group_id'));
     }
 }
