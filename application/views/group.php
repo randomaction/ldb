@@ -3,8 +3,10 @@
 <div class="g">
 <?php foreach ($persons as $person):?>
 <div class="p1">
+<a href="<?php echo site_url('lager/person/'.$person->person_id.'/'.$group->group_id); ?>">
 <img src="<?php echo base_url('media/son_of_an_atom.jpg') ?>" alt="<?php echo $person->name; ?>" />
-<div class="pn"><?php echo anchor("lager/person/".$person->person_id.'/'.$group->group_id, $person->name); ?></div>
+<div class="pn"><?php echo $person->name; ?></div>
+</a>
 </div>
 <?php endforeach;?>
 </div>
