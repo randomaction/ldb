@@ -5,6 +5,7 @@ class Lagermodel extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->helper('url');
+        $this->default_url = base_url('media/the_son_of_atom.jpg');
     }
 
     function get_years() {
@@ -45,7 +46,7 @@ class Lagermodel extends CI_Model {
         foreach ($this->db->get()->result_array() as $row) {
             $images[$row['person_id']] = $row[$column];
             if ($replace && ($row[$column] == null || strcmp($row[$column], '') == 0)) {
-                $images[$row['person_id']] = base_url('media/son_of_an_atom.jpg');
+                $images[$row['person_id']] = $this->default_url;
             }
         }
         return $images;
@@ -53,14 +54,13 @@ class Lagermodel extends CI_Model {
 
     function get_photo($person_id, $group_id) {
         $this->db->from('attendances')->where(array('person_id' => $person_id, 'group_id' => $group_id));
-        $default_url = base_url('media/son_of_an_atom.jpg');
         $row = $this->db->get()->row();
         if ($row == null)  {
-            return $default_url;
+            return $this->default_url;
         }
         $url = $row->image;
         if ($url == null || strcmp($url, '') == 0) {
-            return $default_url;
+            return $this->default_url;
         }
         return $url;
     }
