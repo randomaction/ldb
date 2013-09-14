@@ -21,3 +21,7 @@ text-align: center;
 float: right;
 margin-right: 1em;
 }
+
+.photo {
+border: 1px solid black;
+}

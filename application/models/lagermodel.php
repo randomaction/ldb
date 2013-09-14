@@ -53,9 +53,14 @@ class Lagermodel extends CI_Model {
 
     function get_photo($person_id, $group_id) {
         $this->db->from('attendances')->where(array('person_id' => $person_id, 'group_id' => $group_id));
-        $url = $this->db->get()->row()->image;
+        $default_url = base_url('media/son_of_an_atom.jpg');
+        $row = $this->db->get()->row();
+        if ($row == null)  {
+            return $default_url;
+        }
+        $url = $row->image;
         if ($url == null || strcmp($url, '') == 0) {
-            $url = base_url('media/son_of_an_atom.jpg');
+            return $default_url;
         }
         return $url;
     }

@@ -2,12 +2,14 @@
 <h2>
 <?php if ($person_data != null) echo $person_data->name; ?>
 </h2>
+<?php if ($current_group != null) : ?>
 <div class="p">
-<img src="<?php echo $image; ?>" alt="<?php echo $person_data->name; ?>" />
+<img class="photo" src="<?php echo $image; ?>" alt="<?php echo $person_data->name; ?>" />
 <div class="pn"><?php echo $person_data->name; ?>
 <br/>
 <?php echo $current_group->year.', '.$current_group->name; ?>
 </div>
+<?php endif; ?>
 </div>
 <ul>
 <?php $this->load->helper('url');?>
