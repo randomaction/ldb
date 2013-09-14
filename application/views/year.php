@@ -4,7 +4,7 @@
 <h3><?php echo anchor("lager/group/".$group->group_id, $group->name); ?></h3>
 <ul>
 <?php foreach ($groups[$group->name] as $person):?>
-<li><?php echo anchor("lager/person/".$person->person_id, $person->name); ?></li>
+<li><?php echo anchor("lager/person/".$person->person_id.'/'.$group->group_id, $person->name); ?></li>
 <?php endforeach;?>
 </ul>
 <?php endforeach;?>

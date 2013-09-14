@@ -15,3 +15,8 @@ display: inline-block;
 
 .pn {
 }
+
+.p {
+text-align: center;
+float: right;
+}
