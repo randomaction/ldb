@@ -8,7 +8,7 @@ class Lagermodel extends CI_Model {
     }
 
     function get_years() {
-        $this->db->distinct()->select('year')->from('groups');
+        $this->db->distinct()->select('year')->from('groups')->order_by('year');
         return $this->db->get()->result();
     }
 
