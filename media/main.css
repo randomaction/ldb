@@ -1,0 +1,17 @@
+body {
+width: 100%;
+}
+
+.g {
+width:100%;
+text-align: center;
+}
+
+.p1 {
+margin-top: 1em;
+text-align: center;
+display: inline-block;
+}
+
+.pn {
+}

@@ -45,8 +45,11 @@ class Lagermodel extends CI_Model {
         return strnatcmp($a->name, $b->name);
     }
 
-    function get_groups() {
+    function get_groups($year='all') {
         $this->db->from('groups');
+        if (strcmp($year, 'all') != 0) {
+            $this->db->where('year', $year);
+        }
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_groups'));
         return $result;

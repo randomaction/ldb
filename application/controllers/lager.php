@@ -15,9 +15,18 @@ class Lager extends CI_Controller {
 
     function year($year='???') {
         $data['year'] = $year;
+        $data['group_data'] = $this->Lagermodel->get_groups($year);
         $data['groups'] = $this->Lagermodel->get_year($year);
         $this->load->view('header');
         $this->load->view('year', $data);
+        $this->load->view('footer');
+    }
+
+    function group($id='???') {
+        $data['group'] = $this->Lagermodel->get_group_data($id);
+        $data['persons'] = $this->Lagermodel->get_group_persons($id);
+        $this->load->view('header');
+        $this->load->view('group', $data);
         $this->load->view('footer');
     }
 
