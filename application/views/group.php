@@ -1,5 +1,5 @@
 <?php $this->load->helper('url');?>
-<h2><?php echo $group->year.', '.$group->name; ?></h2>
+<h2><?php echo anchor('lager/year/'.$group->year, $group->year).', '.$group->name; ?></h2>
 <div class="centered">
 <?php foreach ($persons as $person):?>
 <div class="personsphoto">
