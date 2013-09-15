@@ -1,7 +1,7 @@
 <?php $this->load->helper('url');?>
 <h2><?php echo $year; ?></h2>
 <?php foreach ($group_data as $group):?>
-<div class="y">
+<div class="grouplist">
 <h3><?php echo anchor("lager/group/".$group->group_id, $group->name); ?></h3>
 <ul>
 <?php foreach ($groups[$group->name] as $person):?>

@@ -1,28 +1,39 @@
-.g {
+body {
+font-family: Arial, sans-serif;
+}
+
+.peoplewithphotos {
 width:100%;
 text-align: center;
 }
 
-.p1 {
+.personsphoto {
 margin: 0.5em 0.2em;
-text-align: center;
 display: inline-block;
 }
 
-.pn {
-}
-
-.p {
-text-align: center;
-float: right;
-margin-right: 1em;
+.photosection {
+margin-left:20%;
 }
 
 .photo {
 border: 1px solid black;
 }
 
-.y {
+.grouplist {
 display: inline-block;
 vertical-align:text-top;
+}
+
+.applist {
+text-align: left;
+width: 20%;
+position: absolute;
+left: 0;
+top: 0;
+}
+
+.container {
+position: relative;
+text-align: center;
 }
