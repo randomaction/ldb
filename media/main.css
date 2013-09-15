@@ -2,9 +2,16 @@ body {
 font-family: Arial, sans-serif;
 }
 
-.peoplewithphotos {
-width:100%;
+a {
+color: black;
+}
+
+h2,h3 {
 text-align: center;
+}
+
+ul {
+text-align: left;
 }
 
 .personsphoto {
@@ -13,7 +20,10 @@ display: inline-block;
 }
 
 .photosection {
-margin-left:20%;
+width: 40%;
+min-width: 510px;
+display: inline-block;
+vertical-align:text-top;
 }
 
 .photo {
@@ -26,14 +36,11 @@ vertical-align:text-top;
 }
 
 .applist {
-text-align: left;
-width: 20%;
-position: absolute;
-left: 0;
-top: 0;
+display: inline-block;
+vertical-align:text-top;
+margin-right: 2em;
 }
 
-.container {
-position: relative;
+.centered {
 text-align: center;
 }

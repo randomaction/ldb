@@ -1,5 +1,6 @@
 <?php $this->load->helper('url');?>
 <h2><?php echo $year; ?></h2>
+<div class="centered">
 <?php foreach ($group_data as $group):?>
 <div class="grouplist">
 <h3><?php echo anchor("lager/group/".$group->group_id, $group->name); ?></h3>
@@ -10,3 +11,4 @@
 </ul>
 </div>
 <?php endforeach;?>
+</div>

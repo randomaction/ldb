@@ -1,6 +1,6 @@
 <?php $this->load->helper('url');?>
 <h2><?php echo $group->year.', '.$group->name; ?></h2>
-<div class="peoplewithphotos">
+<div class="centered">
 <?php foreach ($persons as $person):?>
 <div class="personsphoto">
 <a href="<?php echo site_url('lager/person/'.$person->person_id.'/'.$group->group_id); ?>">

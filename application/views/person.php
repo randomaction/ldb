@@ -2,7 +2,12 @@
 <h2>
 <?php if ($person_data != null) echo $person_data->name; ?>
 </h2>
-<div class="container">
+<div class="centered">
+<ul class="applist">
+<?php foreach ($groups as $group):?>
+<li><?php echo anchor('lager/person/'.$person_data->person_id.'/'.$group->group_id, $group->year.', '.$group->name); ?></li>
+<?php endforeach;?>
+</ul>
 <?php if ($current_group != null) : ?>
 <div class="photosection">
 <img class="photo" src="<?php echo $image; ?>" alt="<?php echo $person_data->name; ?>" />
@@ -12,10 +17,4 @@
 </div>
 </div>
 <?php endif; ?>
-<ul class="applist">
-<?php $this->load->helper('url');?>
-<?php foreach ($groups as $group):?>
-<li><?php echo anchor('lager/person/'.$person_data->person_id.'/'.$group->group_id, $group->year.', '.$group->name); ?></li>
-<?php endforeach;?>
-</ul>
 </div>
