@@ -40,15 +40,12 @@ class Login extends CI_Controller {
         $password = $this->input->post('password');
         $current_username = $this->session->userdata('username');
         if ($current_username != null && $new_username == $current_username) {
-            error_log('change password');
             $this->Usermodel->change_password($current_username, $password);
             redirect('login');
         } else if (!$this->Usermodel->admin_exists() || $current_username == 'admin') {
-            error_log('create user');
             $this->Usermodel->create_user($new_username, $password);
             redirect('login');
         } else {
-            error_log('create failed');
             redirect('login/create');
         }
     }

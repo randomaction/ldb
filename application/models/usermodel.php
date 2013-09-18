@@ -15,14 +15,10 @@ class Usermodel extends CI_Model {
     function login_successful($username, $password) {
         $this->db->from('users')->where('username', $username);
         $query = $this->db->get();
-        error_log('checking');
         if ($query->num_rows() == 0) {
-        error_log('no users');
             return false;
         }
         $encoded = $query->row()->password;
-        error_log($password);
-        error_log($encoded);
         return crypt($password, $encoded) == $encoded;
     }
 
