@@ -6,7 +6,7 @@
 <ul class="applist">
 <?php foreach ($groups as $group):?>
 <li>
-<?php echo $group->group_id == $current_group->group_id ?
+<?php echo $current_group != null && $group->group_id == $current_group->group_id ?
     $group->year : anchor('lager/person/'.$person_data->person_id.'/'.$group->group_id, $group->year); ?>:
 <?php echo anchor('lager/group/'.$group->group_id, $group->name); ?>
 </li>
