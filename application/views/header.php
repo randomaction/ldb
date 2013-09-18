@@ -13,6 +13,8 @@ $username = $this->session->userdata('username');
 <?php if ( $username != null) : ?>
 <p>[<?php echo $username; ?>]
 
+<?php echo anchor('admin', 'Администрирование'); ?>
+
 <?php echo anchor('login/logout', 'Выйти'); ?>
 </p>
 <?php endif; ?>

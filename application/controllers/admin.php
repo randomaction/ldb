@@ -46,7 +46,7 @@ class Admin extends CI_Controller {
         $this->load->view('admin/person_suggestions', $data);
         $this->load->view('admin/other_persons', $data);
         $this->load->view('admin/add_persons', $data);
-        $this->load->view('footer', array('admin' => true));
+        $this->load->view('footer');
     }
 
     function add_persons() {
@@ -91,7 +91,7 @@ class Admin extends CI_Controller {
         $data['group_data'] = $this->Lagermodel->get_group_data($id);
         $this->load->view('header');
         $this->load->view('admin/remove_group_confirm', $data);
-        $this->load->view('footer', array('admin' => true));
+        $this->load->view('footer');
     }
 
     function remove_group() {
@@ -110,7 +110,7 @@ class Admin extends CI_Controller {
         $data['group_id'] = $group_id;
         $this->load->view('header');
         $this->load->view('admin/person', $data);
-        $this->load->view('footer', array('admin' => true));
+        $this->load->view('footer');
     }
 
     function update_person() {
