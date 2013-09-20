@@ -44,3 +44,32 @@ margin-right: 2em;
 .centered {
 text-align: center;
 }
+
+#headpic {
+height: 100px;
+width: 100px;
+float: left;
+margin-left: 25px;
+background-image: url('/media/flower.png')
+}
+
+#header {
+background-color: #eef;
+}
+
+#headcont {
+display: table-cell;
+vertical-align: middle;
+height: 100px;
+margin-left: 100px;
+padding-left: 50px;
+}
+
+#headlink {
+text-decoration: none;
+font-variant: small-caps;
+}
+
+.admininfo {
+font-size: 80%;
+}
