@@ -50,7 +50,7 @@ height: 100px;
 width: 100px;
 float: left;
 margin-left: 25px;
-background-image: url('/media/flower.png')
+background-image: url('flower.png')
 }
 
 #header {
