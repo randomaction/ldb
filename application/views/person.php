@@ -1,6 +1,9 @@
-<?php $this->load->helper('url');?>
+<?php
+$this->load->helper('url');
+$this->load->model('Lagermodel');
+?>
 <h2>
-<?php if ($person_data != null) echo $person_data->name; ?>
+<?php if ($person_data != null) echo $person_data->person_name; ?>
 </h2>
 <div class="centered">
 <ul class="applist">
@@ -8,15 +11,15 @@
 <li>
 <?php echo $current_group != null && $group->group_id == $current_group->group_id ?
     $group->year : anchor('lager/person/'.$person_data->person_id.'/'.$group->group_id, $group->year); ?>:
-<?php echo anchor('lager/group/'.$group->group_id, $group->name); ?>
+<?php echo anchor('lager/group/'.$group->group_id, $group->group_name); ?>
 </li>
 <?php endforeach;?>
 </ul>
 <?php if ($current_group != null) : ?>
 <div class="photosection">
-<img class="photo" src="<?php echo $image; ?>" alt="<?php echo $person_data->name; ?>" />
+<img class="photo" src="<?php echo $this->Lagermodel->replace_url($current_group->photo); ?>" alt="<?php echo $person_data->person_name; ?>" />
 <div>
-<?php echo $current_group->year.', '.$current_group->name; ?>
+<?php echo $current_group->year.', '.$current_group->group_name; ?>
 </div>
 </div>
 <?php endif; ?>

@@ -7,7 +7,7 @@ echo form_open('admin/add_existing_persons');?>
 <p>
 <?php foreach($suggestions as $person): ?>
 <?php echo form_checkbox(array('name' => 'id'.$person->person_id, 'value' => 'add')); ?>
-<?php echo $person->name; ?>
+<?php echo $person->person_name; ?>
 <br/>
 <?php endforeach; ?>
 </p>
