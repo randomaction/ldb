@@ -26,17 +26,17 @@ class Lagermodel extends CI_Model {
         return $result;
     }
 
-    function get_group_data($id) {
-        $this->db->from('groups')->where('group_id', $id);
+    function get_group_data($group_id) {
+        $this->db->from('groups')->where('group_id', $group_id);
         return $this->db->get()->row();
     }
 
-    function get_group_persons($id) {
+    function get_group_persons($group_id) {
         $this->db->select('persons.person_id, persons.person_name, photos.photo, photos.photo_small')->from('persons')->
             join('attendances', 'persons.person_id = attendances.person_id')->
             join('groups', 'groups.group_id = attendances.group_id')->
             join('photos', 'persons.person_id = photos.person_id and {PRE}groups.year = {PRE}photos.year', 'left')-> 
-            where('attendances.group_id', $id);
+            where('attendances.group_id', $group_id);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
         return $result;
@@ -59,8 +59,8 @@ class Lagermodel extends CI_Model {
         return $result;
     }
 
-    function get_person_data($id) {
-        $this->db->from('persons')->where('person_id', $id);
+    function get_person_data($person_id) {
+        $this->db->from('persons')->where('person_id', $person_id);
         $query = $this->db->get();
         if ($query->num_rows() == 0)
             return null;
@@ -71,11 +71,11 @@ class Lagermodel extends CI_Model {
         return strnatcmp($a->person_name, $b->person_name);
     }
 
-    function get_person_groups($id) {
+    function get_person_groups($person_id) {
         $this->db->select('groups.group_id, groups.year, groups.group_name, photos.photo')->from('groups')->
             join('attendances', 'groups.group_id = attendances.group_id')->
             join('photos', 'attendances.person_id = photos.person_id and {PRE}groups.year = {PRE}photos.year', 'left')->
-            where('attendances.person_id', $id);
+            where('attendances.person_id', $person_id);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_groups'));
         return $result;
@@ -90,8 +90,8 @@ class Lagermodel extends CI_Model {
         return null;
     }
 
-    function get_ids_not_in_group($id) {
-        $this->db->from('attendances')->where('group_id', $id);
+    function get_ids_not_in_group($group_id) {
+        $this->db->from('attendances')->where('group_id', $group_id);
         $already_in = array();
         foreach ($this->db->get()->result() as $row) {
             array_push($already_in, $row->person_id);
@@ -99,9 +99,9 @@ class Lagermodel extends CI_Model {
         return $already_in;
     }
 
-    function get_person_suggestions($id, $operator) {
-        $grad = $this->get_group_default_graduation($id);
-        $already_in = $this->get_ids_not_in_group($id);
+    function get_person_suggestions($group_id, $operator) {
+        $grad = $this->get_group_default_graduation($group_id);
+        $already_in = $this->get_ids_not_in_group($group_id);
         $this->db->from('persons')->where('graduation '.$operator, $grad);
         if (count($already_in) > 0)
             $this->db->where_not_in('person_id', $already_in);
@@ -114,20 +114,21 @@ class Lagermodel extends CI_Model {
         $this->db->insert('groups', array('year' => $year, 'group_name' => $group_name));
     }
 
-    function add_persons($id, $persons) {
-        $grad = $this->get_group_default_graduation($id);
+    function add_persons($group_id, $persons) {
+        $grad = $this->get_group_default_graduation($group_id);
         foreach(explode("\n", $persons) as $person_name) {
             if (strlen(trim($person_name)) == 0)
                 continue;
             $this->db->insert('persons', array('person_name' => $person_name, 'graduation' => $grad));
-            $this->db->insert('attendances', array('person_id' => $this->db->insert_id(), 'group_id' => $id));
+            $this->db->insert('attendances', array('person_id' => $this->db->insert_id(), 'group_id' => $group_id));
         }
     }
 
-    function add_existing_persons($id, $data) {
+    function add_existing_persons($group_id, $data) {
         foreach($data as $key => $value) {
-            if (strcmp($value, 'add') == 0)
-                $this->add_person($id, $key);
+            if (strcmp($value, 'add') == 0) {
+                $this->add_person($group_id, $key);
+            }
         }
     }
 
@@ -158,19 +159,19 @@ class Lagermodel extends CI_Model {
         $this->clean_persons();
     }
 
-    function remove_group($id) {
-        $this->db->from('attendances')->where('group_id', $id)->delete();
-        $this->db->from('groups')->where('group_id', $id)->delete();
+    function remove_group($group_id) {
+        $this->db->from('attendances')->where('group_id', $group_id)->delete();
+        $this->db->from('groups')->where('group_id', $group_id)->delete();
         $this->clean_persons();
     }
 
-    function update_person($id, $person_name, $graduation) {
-        $this->db->where('person_id', $id)->
+    function update_person($person_id, $person_name, $graduation) {
+        $this->db->where('person_id', $person_id)->
             update('persons', array('person_name' => $person_name, 'graduation' => $graduation));
     }
 
-    function get_group_default_graduation($id) {
-        $group_data = $this->get_group_data($id);
+    function get_group_default_graduation($group_id) {
+        $group_data = $this->get_group_data($group_id);
         return $this->get_default_graduation($group_data->year, $group_data->group_name);
     }
 
@@ -178,18 +179,18 @@ class Lagermodel extends CI_Model {
         return $year + 12 - (int)$group_name;
     }
 
-    function update_photos($person_id, $year, $image, $image_small) {
-        if ($image == '' && $image_small == '') {
+    function update_photos($person_id, $year, $photo, $photo_small) {
+        if ($photo == '' && $photo_small == '') {
             $this->db->where('person_id', $person_id)->where('year', $year)->delete('photos');
             return;
         }
         $this->db->from('photos')->where('person_id', $person_id)->where('year', $year);
         if ($this->db->get()->num_rows() == 0) {
             $this->db->insert('photos',
-                array('person_id' => $person_id, 'year' => $year, 'photo' => $image, 'photo_small' => $image_small));
+                array('person_id' => $person_id, 'year' => $year, 'photo' => $photo, 'photo_small' => $photo_small));
         } else {
         $this->db->where('person_id', $person_id)->where('year', $year)->
-            update('photos', array('photo' => $image, 'photo_small' => $image_small));
+            update('photos', array('photo' => $photo, 'photo_small' => $photo_small));
         }
     }
 

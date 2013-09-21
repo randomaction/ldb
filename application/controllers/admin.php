@@ -31,14 +31,14 @@ class Admin extends CI_Controller {
         redirect('admin');
     }
 
-    function group($id='???') {
+    function group($group_id='???') {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $data['group_data'] = $this->Lagermodel->get_group_data($id);
-        $data['persons'] = $this->Lagermodel->get_group_persons($id);
-        $data['suggestions'] = $this->Lagermodel->get_person_suggestions($id, '=');
-        $data['others'] = $this->Lagermodel->get_person_suggestions($id, '<>');
+        $data['group_data'] = $this->Lagermodel->get_group_data($group_id);
+        $data['persons'] = $this->Lagermodel->get_group_persons($group_id);
+        $data['suggestions'] = $this->Lagermodel->get_person_suggestions($group_id, '=');
+        $data['others'] = $this->Lagermodel->get_person_suggestions($group_id, '<>');
         $this->load->view('header');
         $this->load->view('admin/group', $data);
         $this->load->view('admin/person_suggestions', $data);
@@ -51,27 +51,27 @@ class Admin extends CI_Controller {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $id = $this->input->post('group_id');
-        $this->Lagermodel->add_persons($id, $this->input->post('persons'));
-        redirect('admin/group/'.$id);
+        $group_id = $this->input->post('group_id');
+        $this->Lagermodel->add_persons($group_id, $this->input->post('persons'));
+        redirect('admin/group/'.$group_id);
     }
 
     function add_existing_persons() {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $id = $this->input->post('group_id');
-        $this->Lagermodel->add_existing_persons($id, $this->input->post());
-        redirect('admin/group/'.$id);
+        $group_id = $this->input->post('group_id');
+        $this->Lagermodel->add_existing_persons($group_id, $this->input->post());
+        redirect('admin/group/'.$group_id);
     }
 
     function add_other_person() {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $id = $this->input->post('group_id');
-        $this->Lagermodel->add_person($id, $this->input->post('other'));
-        redirect('admin/group/'.$id);
+        $group_id = $this->input->post('group_id');
+        $this->Lagermodel->add_person($group_id, $this->input->post('other'));
+        redirect('admin/group/'.$group_id);
     }
 
     function remove($group_id='???', $person_id='???') {
@@ -82,11 +82,11 @@ class Admin extends CI_Controller {
         redirect('admin/group/'.$group_id);
     }
 
-    function remove_group_confirm($id='???') {
+    function remove_group_confirm($group_id='???') {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $data['group_data'] = $this->Lagermodel->get_group_data($id);
+        $data['group_data'] = $this->Lagermodel->get_group_data($group_id);
         $this->load->view('header');
         $this->load->view('admin/remove_group_confirm', $data);
         $this->load->view('footer');
@@ -96,15 +96,15 @@ class Admin extends CI_Controller {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $this->Lagermodel->remove_group($this->input->post('id'));
+        $this->Lagermodel->remove_group($this->input->post('group_id'));
         redirect('admin');
     }
 
-    function person($id='???', $group_id='???') {
+    function person($person_id='???', $group_id='???') {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $data['person_data'] = $this->Lagermodel->get_person_data($id);
+        $data['person_data'] = $this->Lagermodel->get_person_data($person_id);
         $data['group_id'] = $group_id;
         $this->load->view('header');
         $this->load->view('admin/person', $data);
@@ -115,7 +115,7 @@ class Admin extends CI_Controller {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $this->Lagermodel->update_person($this->input->post('id'),
+        $this->Lagermodel->update_person($this->input->post('person_id'),
             $this->input->post('person_name'), $this->input->post('graduation'));
         redirect('admin/group/'.$this->input->post('group_id'));
     }
@@ -125,8 +125,8 @@ class Admin extends CI_Controller {
             redirect('login');
         }
         $this->Lagermodel->update_photos($this->input->post('person_id'),
-            $this->input->post('year'), $this->input->post('image'),
-            $this->input->post('image_small'));
+            $this->input->post('year'), $this->input->post('photo'),
+            $this->input->post('photo_small'));
         redirect('admin/group/'.$this->input->post('group_id'));
     }
 }

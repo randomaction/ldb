@@ -23,17 +23,17 @@ class Lager extends CI_Controller {
         $this->load->view('footer');
     }
 
-    function group($id='???') {
-        $data['group'] = $this->Lagermodel->get_group_data($id);
-        $data['persons'] = $this->Lagermodel->get_group_persons($id);
+    function group($group_id='???') {
+        $data['group'] = $this->Lagermodel->get_group_data($group_id);
+        $data['persons'] = $this->Lagermodel->get_group_persons($group_id);
         $this->load->view('header');
         $this->load->view('group', $data);
         $this->load->view('footer');
     }
 
-    function person($id='???', $group_id='???') {
-        $data['person_data'] = $this->Lagermodel->get_person_data($id);
-        $data['groups'] = $this->Lagermodel->get_person_groups($id);
+    function person($person_id='???', $group_id='???') {
+        $data['person_data'] = $this->Lagermodel->get_person_data($person_id);
+        $data['groups'] = $this->Lagermodel->get_person_groups($person_id);
         $data['current_group'] = $this->Lagermodel->find_group($data['groups'], $group_id);
         $this->load->view('header');
         $this->load->view('person', $data);
