@@ -9,14 +9,18 @@ class Login extends CI_Controller {
     }
 
     function index() {
+        $data['action'] = 'login/login_action';
+        $data['label'] = 'Войти';
         $this->load->view('header');
-        $this->load->view('user/login');
+        $this->load->view('login', $data);
         $this->load->view('footer');
     }
 
     function create() {
+        $data['action'] = 'login/create_action';
+        $data['label'] = 'Создать/поменять';
         $this->load->view('header');
-        $this->load->view('user/create');
+        $this->load->view('login', $data);
         $this->load->view('footer');
     }
 
