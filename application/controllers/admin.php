@@ -36,10 +36,14 @@ class Admin extends CI_Controller {
             redirect('login');
         }
         $data['group_data'] = $this->Lagermodel->get_group_data_by_id($group_id);
-        $data['persons'] = $this->Lagermodel->get_group_persons_by_id($group_id);
+        $data['persons'] = $this->Lagermodel->get_group_persons_by_id($group_id, false);
         $data['suggestions'] = $this->Lagermodel->get_person_suggestions($group_id, '=');
         $data['others'] = $this->Lagermodel->get_person_suggestions($group_id, '<>');
+        $data['leads'] = false;
         $this->load->view('header');
+        $this->load->view('admin/group', $data);
+        $data['persons'] = $this->Lagermodel->get_group_persons_by_id($group_id, true);
+        $data['leads'] = true;
         $this->load->view('admin/group', $data);
         $this->load->view('admin/person_suggestions', $data);
         $this->load->view('admin/other_persons', $data);

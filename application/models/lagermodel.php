@@ -36,24 +36,25 @@ class Lagermodel extends CI_Model {
         return $this->db->get()->row();
     }
 
-    function select_persons_from_group() {
+    function select_persons_from_group($with_role) {
         $columns = 'persons.person_id, persons.person_name, photos.photo, photos.photo_small, attendances.role';
         $this->db->select($columns)->from('persons')->
             join('attendances', 'persons.person_id = attendances.person_id')->
             join('groups', 'groups.group_id = attendances.group_id')->
             join('photos', 'persons.person_id = photos.person_id and {PRE}groups.year = {PRE}photos.year', 'left');
+            $this->db->where('attendances.role is '.($with_role ? 'not ' : '').'null');
     }
 
-    function get_group_persons($year, $group_name) {
-        $this->select_persons_from_group();
+    function get_group_persons($year, $group_name, $with_role = false) {
+        $this->select_persons_from_group($with_role);
         $this->db->where('groups.year', $year)->where('groups.group_name', $group_name);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
         return $result;
     }
 
-    function get_group_persons_by_id($group_id) {
-        $this->select_persons_from_group();
+    function get_group_persons_by_id($group_id, $with_role) {
+        $this->select_persons_from_group($with_role);
         $this->db->where('attendances.group_id', $group_id);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
@@ -90,7 +91,8 @@ class Lagermodel extends CI_Model {
     }
 
     function get_person_groups($person_id) {
-        $this->db->select('groups.group_id, groups.year, groups.group_name, photos.photo')->from('groups')->
+        $columns = 'groups.group_id, groups.year, groups.group_name, photos.photo, attendances.role';
+        $this->db->select($columns)->from('groups')->
             join('attendances', 'groups.group_id = attendances.group_id')->
             join('photos', 'attendances.person_id = photos.person_id and {PRE}groups.year = {PRE}photos.year', 'left')->
             where('attendances.person_id', $person_id);
