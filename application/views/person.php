@@ -11,8 +11,8 @@ $url = $this->Lagermodel->replace_url($current_group == null ? null : $current_g
 <?php foreach ($groups as $group):?>
 <li>
 <?php echo $current_group != null && $group->year == $current_group->year ?
-    $group->year : anchor('lager/person/'.$person_data->person_id.'/'.$group->year, $group->year); ?>:
-<?php echo anchor('lager/view/'.$group->year.'/'.$group->group_name, $group->group_name); ?>
+    $group->year : anchor('person/'.$person_data->person_id.'/'.$group->year, $group->year); ?>:
+<?php echo anchor('view/'.$group->year.'/'.$group->group_name, $group->group_name); ?>
 </li>
 <?php endforeach;?>
 </ul>
