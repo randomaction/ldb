@@ -19,24 +19,41 @@ class Lagermodel extends CI_Model {
         $group_query = $this->db->get();
 
         foreach ($group_query->result() as $row) {
-            $result[$row->group_name] = $this->get_group_persons($row->group_id);
+            $result[$row->group_name] = $this->get_group_persons($year, $row->group_name);
         }
 
         ksort($result, SORT_NATURAL);
         return $result;
     }
 
-    function get_group_data($group_id) {
+    function get_group_data($year, $group_name) {
+        $this->db->from('groups')->where('year', $year)->where('group_name', $group_name);
+        return $this->db->get()->row();
+    }
+
+    function get_group_data_by_id($group_id) {
         $this->db->from('groups')->where('group_id', $group_id);
         return $this->db->get()->row();
     }
 
-    function get_group_persons($group_id) {
+    function select_persons_from_group() {
         $this->db->select('persons.person_id, persons.person_name, photos.photo, photos.photo_small')->from('persons')->
             join('attendances', 'persons.person_id = attendances.person_id')->
             join('groups', 'groups.group_id = attendances.group_id')->
-            join('photos', 'persons.person_id = photos.person_id and {PRE}groups.year = {PRE}photos.year', 'left')-> 
-            where('attendances.group_id', $group_id);
+            join('photos', 'persons.person_id = photos.person_id and {PRE}groups.year = {PRE}photos.year', 'left');
+    }
+
+    function get_group_persons($year, $group_name) {
+        select_persons_from_group();
+        $this->db->where('groups.year', $year)->where('groups.group_name', $group_name);
+        $result = $this->db->get()->result();
+        usort($result, array('Lagermodel', 'cmp_by_name'));
+        return $result;
+    }
+
+    function get_group_persons_by_id($group_id) {
+        select_persons_from_group();
+        $this->db->where('attendances.group_id', $group_id);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
         return $result;
@@ -171,7 +188,7 @@ class Lagermodel extends CI_Model {
     }
 
     function get_group_default_graduation($group_id) {
-        $group_data = $this->get_group_data($group_id);
+        $group_data = $this->get_group_data_by_id($group_id);
         return $this->get_default_graduation($group_data->year, $group_data->group_name);
     }
 

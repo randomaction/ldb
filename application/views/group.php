@@ -2,7 +2,7 @@
 $this->load->helper('url');
 $this->load->model('Lagermodel');
 ?>
-<h2><?php echo anchor('lager/year/'.$group->year, $group->year).', '.$group->group_name; ?></h2>
+<h2><?php echo anchor('lager/view/'.$group->year, $group->year).', '.$group->group_name; ?></h2>
 <div class="centered">
 <?php foreach ($persons as $person):?>
 <div class="personsphoto">

@@ -35,8 +35,8 @@ class Admin extends CI_Controller {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $data['group_data'] = $this->Lagermodel->get_group_data($group_id);
-        $data['persons'] = $this->Lagermodel->get_group_persons($group_id);
+        $data['group_data'] = $this->Lagermodel->get_group_data_by_id($group_id);
+        $data['persons'] = $this->Lagermodel->get_group_persons_by_id($group_id);
         $data['suggestions'] = $this->Lagermodel->get_person_suggestions($group_id, '=');
         $data['others'] = $this->Lagermodel->get_person_suggestions($group_id, '<>');
         $this->load->view('header');
@@ -86,7 +86,7 @@ class Admin extends CI_Controller {
         if (!$this->logged_in()) {
             redirect('login');
         }
-        $data['group_data'] = $this->Lagermodel->get_group_data($group_id);
+        $data['group_data'] = $this->Lagermodel->get_group_data_by_id($group_id);
         $this->load->view('header');
         $this->load->view('admin/remove_group_confirm', $data);
         $this->load->view('footer');

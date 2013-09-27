@@ -12,7 +12,7 @@ $url = $this->Lagermodel->replace_url($current_group->photo);
 <li>
 <?php echo $current_group != null && $group->group_id == $current_group->group_id ?
     $group->year : anchor('lager/person/'.$person_data->person_id.'/'.$group->group_id, $group->year); ?>:
-<?php echo anchor('lager/group/'.$group->group_id, $group->group_name); ?>
+<?php echo anchor('lager/view/'.$group->year.'/'.$group->group_name, $group->group_name); ?>
 </li>
 <?php endforeach;?>
 </ul>

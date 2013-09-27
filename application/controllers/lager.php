@@ -14,20 +14,19 @@ class Lager extends CI_Controller {
         $this->load->view('footer', array('link' => false));
     }
 
-    function year($year='???') {
-        $data['year'] = $year;
-        $data['group_data'] = $this->Lagermodel->get_groups($year);
-        $data['groups'] = $this->Lagermodel->get_year($year);
+    function view($enc_year='', $enc_group_name='') {
+        $year = urldecode($enc_year);
+        $group_name = urldecode($enc_group_name);
+        if ($group_name == '') {
+            $data['year'] = $year;
+            $data['group_data'] = $this->Lagermodel->get_groups($year);
+            $data['groups'] = $this->Lagermodel->get_year($year);
+        } else {
+            $data['group'] = $this->Lagermodel->get_group_data($year, $group_name);
+            $data['persons'] = $this->Lagermodel->get_group_persons($year, $group_name);
+        }
         $this->load->view('header');
-        $this->load->view('year', $data);
-        $this->load->view('footer');
-    }
-
-    function group($group_id='???') {
-        $data['group'] = $this->Lagermodel->get_group_data($group_id);
-        $data['persons'] = $this->Lagermodel->get_group_persons($group_id);
-        $this->load->view('header');
-        $this->load->view('group', $data);
+        $this->load->view($group_name == '' ? 'year' : 'group', $data);
         $this->load->view('footer');
     }
 
