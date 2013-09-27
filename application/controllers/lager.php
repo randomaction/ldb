@@ -30,10 +30,11 @@ class Lager extends CI_Controller {
         $this->load->view('footer');
     }
 
-    function person($person_id='???', $group_id='???') {
+    function person($person_id='', $enc_year='') {
+        $year = urldecode($enc_year);
         $data['person_data'] = $this->Lagermodel->get_person_data($person_id);
         $data['groups'] = $this->Lagermodel->get_person_groups($person_id);
-        $data['current_group'] = $this->Lagermodel->find_group($data['groups'], $group_id);
+        $data['current_group'] = $this->Lagermodel->find_group($data['groups'], $year);
         $this->load->view('header');
         $this->load->view('person', $data);
         $this->load->view('footer');

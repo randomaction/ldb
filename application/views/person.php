@@ -1,7 +1,7 @@
 <?php
 $this->load->helper('url');
 $this->load->model('Lagermodel');
-$url = $this->Lagermodel->replace_url($current_group->photo);
+$url = $this->Lagermodel->replace_url($current_group == null ? null : $current_group->photo);
 ?>
 <h2>
 <?php if ($person_data != null) echo $person_data->person_name; ?>
@@ -10,8 +10,8 @@ $url = $this->Lagermodel->replace_url($current_group->photo);
 <ul class="applist">
 <?php foreach ($groups as $group):?>
 <li>
-<?php echo $current_group != null && $group->group_id == $current_group->group_id ?
-    $group->year : anchor('lager/person/'.$person_data->person_id.'/'.$group->group_id, $group->year); ?>:
+<?php echo $current_group != null && $group->year == $current_group->year ?
+    $group->year : anchor('lager/person/'.$person_data->person_id.'/'.$group->year, $group->year); ?>:
 <?php echo anchor('lager/view/'.$group->year.'/'.$group->group_name, $group->group_name); ?>
 </li>
 <?php endforeach;?>
@@ -20,7 +20,7 @@ $url = $this->Lagermodel->replace_url($current_group->photo);
 <div class="photosection">
 <img class="photo" src="<?php echo $url; ?>" alt="<?php echo $person_data->person_name; ?>" />
 <div>
-<?php echo $current_group->year.', '.$current_group->group_name; ?>
+<?php echo $current_group->year; ?>
 </div>
 </div>
 <?php endif; ?>

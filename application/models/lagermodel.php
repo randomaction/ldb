@@ -44,7 +44,7 @@ class Lagermodel extends CI_Model {
     }
 
     function get_group_persons($year, $group_name) {
-        select_persons_from_group();
+        $this->select_persons_from_group();
         $this->db->where('groups.year', $year)->where('groups.group_name', $group_name);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
@@ -52,7 +52,7 @@ class Lagermodel extends CI_Model {
     }
 
     function get_group_persons_by_id($group_id) {
-        select_persons_from_group();
+        $this->select_persons_from_group();
         $this->db->where('attendances.group_id', $group_id);
         $result = $this->db->get()->result();
         usort($result, array('Lagermodel', 'cmp_by_name'));
@@ -98,9 +98,9 @@ class Lagermodel extends CI_Model {
         return $result;
     }
 
-    function find_group($groups, $group_id) {
+    function find_group($groups, $year) {
         foreach ($groups as $group) {
-            if ($group->group_id == $group_id) {
+            if ($group->year == $year) {
                 return $group;
             }
         }
