@@ -10,13 +10,13 @@
 <?php endforeach;?>
 </ul>
 <?php if (count($groups['leads'][$group->group_name]) > 0) : ?>
-<hr>
-<?php endif; ?>
+<hr/>
 <ul>
 <?php foreach ($groups['leads'][$group->group_name] as $person) : ?>
 <li><?php echo anchor("person/".$person->person_id.'/'.$group->year, $person->person_name); ?></li>
 <?php endforeach;?>
 </ul>
+<?php endif; ?>
 </div>
 <?php endforeach;?>
 </div>

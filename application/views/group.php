@@ -21,5 +21,5 @@ echo anchor('person/'.$person->person_id.'/'.$group->year, $person->person_name)
 <?php endforeach;?>
 </div>
 <?php if ($leads && count($persons) > 0) : ?>
-<hr>
+<hr/>
 <?php endif; ?>
