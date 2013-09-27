@@ -120,13 +120,15 @@ class Admin extends CI_Controller {
         redirect('admin/group/'.$this->input->post('group_id'));
     }
 
-    function update_photos() {
+    function update_attendance() {
         if (!$this->logged_in()) {
             redirect('login');
         }
         $this->Lagermodel->update_photos($this->input->post('person_id'),
             $this->input->post('year'), $this->input->post('photo'),
             $this->input->post('photo_small'));
+        $this->Lagermodel->update_role($this->input->post('person_id'),
+            $this->input->post('group_id'), $this->input->post('role'));
         redirect('admin/group/'.$this->input->post('group_id'));
     }
 }

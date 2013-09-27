@@ -37,7 +37,8 @@ class Lagermodel extends CI_Model {
     }
 
     function select_persons_from_group() {
-        $this->db->select('persons.person_id, persons.person_name, photos.photo, photos.photo_small')->from('persons')->
+        $columns = 'persons.person_id, persons.person_name, photos.photo, photos.photo_small, attendances.role';
+        $this->db->select($columns)->from('persons')->
             join('attendances', 'persons.person_id = attendances.person_id')->
             join('groups', 'groups.group_id = attendances.group_id')->
             join('photos', 'persons.person_id = photos.person_id and {PRE}groups.year = {PRE}photos.year', 'left');
@@ -196,8 +197,10 @@ class Lagermodel extends CI_Model {
         return $year + 12 - (int)$group_name;
     }
 
-    function update_photos($person_id, $year, $photo, $photo_small) {
-        if ($photo == '' && $photo_small == '') {
+    function update_photos($person_id, $year, $photo_raw, $photo_small_raw) {
+        $photo = $this->null_if_empty($photo_raw);
+        $photo_small = $this->null_if_empty($photo_small_raw);
+        if ($photo == null && $photo_small == null) {
             $this->db->where('person_id', $person_id)->where('year', $year)->delete('photos');
             return;
         }
@@ -211,8 +214,18 @@ class Lagermodel extends CI_Model {
         }
     }
 
+    function update_role($person_id, $group_id, $role_raw) {
+        $role = $this->null_if_empty($role_raw);
+        $this->db->where('person_id', $person_id)->where('group_id', $group_id)->
+            update('attendances', array('role' => $role));
+    }
+
     function replace_url($url) {
-       return $url == null || $url == '' ? $this->default_url : $url;
+       return $url == null ? $this->default_url : $url;
+    }
+
+    function null_if_empty($string) {
+        return $string == '' ? null : $string;
     }
 }
 ?>
