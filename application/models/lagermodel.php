@@ -19,7 +19,8 @@ class Lagermodel extends CI_Model {
         $group_query = $this->db->get();
 
         foreach ($group_query->result() as $row) {
-            $result[$row->group_name] = $this->get_group_persons($year, $row->group_name);
+            $result['persons'][$row->group_name] = $this->get_group_persons($year, $row->group_name, false);
+            $result['leads'][$row->group_name] = $this->get_group_persons($year, $row->group_name, true);
         }
 
         ksort($result, SORT_NATURAL);
@@ -45,7 +46,7 @@ class Lagermodel extends CI_Model {
             $this->db->where('attendances.role is '.($with_role ? 'not ' : '').'null');
     }
 
-    function get_group_persons($year, $group_name, $with_role = false) {
+    function get_group_persons($year, $group_name, $with_role) {
         $this->select_persons_from_group($with_role);
         $this->db->where('groups.year', $year)->where('groups.group_name', $group_name);
         $result = $this->db->get()->result();
