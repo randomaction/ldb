@@ -2,7 +2,7 @@
 $this->load->helper('url');
 $this->load->model('Lagermodel');
 ?>
-<?php if (!$leads) : ?>
+<?php if ($leads) : ?>
 <h2><?php echo anchor('view/'.$group->year, $group->year).', '.$group->group_name; ?></h2>
 <?php endif; ?>
 <div class="centered">
@@ -20,3 +20,6 @@ echo anchor('person/'.$person->person_id.'/'.$group->year, $person->person_name)
 </div>
 <?php endforeach;?>
 </div>
+<?php if ($leads && count($persons) > 0) : ?>
+<hr>
+<?php endif; ?>

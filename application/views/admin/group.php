@@ -1,9 +1,9 @@
 <?php $this->load->helper('url');?>
 <?php $this->load->helper('form');?>
 <?php if ($leads) : ?>
+<h2><?php echo $group_data->year.', '.$group_data->group_name; ?></h2>
 <ul>
 <?php else : ?>
-<h2><?php echo $group_data->year.', '.$group_data->group_name; ?></h2>
 <ol>
 <?php endif; ?>
 <?php foreach ($persons as $person):?>

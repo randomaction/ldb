@@ -31,12 +31,12 @@ class Lager extends CI_Controller {
 
     function _group($year, $group_name) {
         $data['group'] = $this->Lagermodel->get_group_data($year, $group_name);
-        $data['persons'] = $this->Lagermodel->get_group_persons($year, $group_name, false);
-        $data['leads'] = false;
         $this->load->view('header');
-        $this->load->view('group', $data);
         $data['persons'] = $this->Lagermodel->get_group_persons($year, $group_name, true);
         $data['leads'] = true;
+        $this->load->view('group', $data);
+        $data['persons'] = $this->Lagermodel->get_group_persons($year, $group_name, false);
+        $data['leads'] = false;
         $this->load->view('group', $data);
         $this->load->view('footer');
     }
