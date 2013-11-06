@@ -88,7 +88,9 @@ class Lagermodel extends CI_Model {
     }
 
     static function cmp_by_name($a, $b) {
-        return strnatcmp($a->person_name, $b->person_name);
+        $name_a = str_replace("ё", "е", str_replace("Ё", "Е", $a->person_name));
+        $name_b = str_replace("ё", "е", str_replace("Ё", "Е", $b->person_name));
+        return strnatcmp($name_a, $name_b);
     }
 
     function get_person_groups($person_id) {
