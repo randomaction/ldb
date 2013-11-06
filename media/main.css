@@ -80,3 +80,8 @@ font-variant: small-caps;
 .admininfo {
 font-size: 80%;
 }
+
+.foot {
+font-size: 80%;
+text-align: right;
+}
