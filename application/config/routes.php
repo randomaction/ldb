@@ -42,6 +42,7 @@ $route['default_controller'] = "lager";
 $route['404_override'] = '';
 $route['view/(:any)'] = 'lager/view/$1';
 $route['person/(:any)'] = 'lager/person/$1';
+$route['everybody'] = 'lager/everybody';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

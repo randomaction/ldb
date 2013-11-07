@@ -14,6 +14,13 @@ class Lager extends CI_Controller {
         $this->load->view('footer');
     }
 
+    function everybody() {
+        $data['persons'] = $this->Lagermodel->get_all_persons();
+        $this->load->view('header');
+        $this->load->view('everybody', $data);
+        $this->load->view('footer');
+    }
+
     function view($enc_year='', $enc_group_name='') {
         $year = urldecode($enc_year);
         $group_name = urldecode($enc_group_name);

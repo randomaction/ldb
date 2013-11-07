@@ -37,6 +37,13 @@ class Lagermodel extends CI_Model {
         return $this->db->get()->row();
     }
 
+    function get_all_persons() {
+        $this->db->from('persons');
+        $result = $this->db->get()->result();
+        usort($result, array('Lagermodel', 'cmp_by_name'));
+        return $result;
+    }
+
     function select_persons_from_group($with_role) {
         $columns = 'persons.person_id, persons.person_name, photos.photo, photos.photo_small, attendances.role';
         $this->db->select($columns)->from('persons')->

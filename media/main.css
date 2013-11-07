@@ -85,3 +85,9 @@ font-size: 80%;
 font-size: 80%;
 text-align: right;
 }
+
+.columns {
+-moz-column-count:4; /* Stupid Firefox */
+-webkit-column-count:4; /* Stupid Webkit */
+column-count:4;
+}
